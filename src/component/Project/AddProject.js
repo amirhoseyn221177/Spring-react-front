@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {connect} from 'react-redux'
 import {createProject} from '../../action'
 import {withRouter}from 'react-router-dom'
+import classNames from 'classnames'
 
 const AddProject=(props)=>{
     const[projectName,setProjectName]=useState("");
@@ -9,6 +10,7 @@ const AddProject=(props)=>{
     const [description,setDescription]=useState("");
     const [start,setStart]=useState("");
     const [end,setEnd]=useState("");
+    const [pressedSubmit,setPressedSubmit]=useState(false)
 
     var onChange=(e,settype)=>{
         let content=e.target.value
@@ -18,6 +20,7 @@ const AddProject=(props)=>{
 
     var onSubmit=(e)=>{
         e.preventDefault();
+        setPressedSubmit(true)
         let obj={
             projectName: projectName,
             projectIdentifier: projectIdentifier,
@@ -25,9 +28,18 @@ const AddProject=(props)=>{
             start_date: start,
             end_date: end
         }
+
+         for(let val of Object.values(obj)){
+          if(val===""){
+            return;
+          }
+        }
+     
         console.log(obj)
         props.createProject(obj,props.history)
     }
+
+
 
     return(
         <div>
@@ -41,7 +53,9 @@ const AddProject=(props)=>{
                   <div className="form-group">
                     <input
                       type="text"
-                      className="form-control form-control-lg "
+                      className={classNames("form-control form-control-lg ",{
+                        "is-invalid":projectName===""&&pressedSubmit
+                      })}
                       placeholder="Project Name"
                       name="projectName"
                       value={projectName}
@@ -51,7 +65,9 @@ const AddProject=(props)=>{
                   <div className="form-group">
                     <input
                       type="text"
-                      className="form-control form-control-lg"
+                      className={classNames("form-control form-control-lg",{
+                        "is-invalid":projectIdentifier===""&&pressedSubmit
+                      })}
                       placeholder="Unique Project ID"
                       name="projectIdentifier"
                       value={projectIdentifier}
@@ -60,7 +76,9 @@ const AddProject=(props)=>{
                   </div>
                   <div className="form-group">
                     <textarea
-                      className="form-control form-control-lg"
+                      className={classNames("form-control form-control-lg",{
+                        "is-invalid":description===""&&pressedSubmit
+                      })}
                       placeholder="Project Description"
                       name="description"
                       value={description}
@@ -71,7 +89,9 @@ const AddProject=(props)=>{
                   <div className="form-group">
                     <input
                       type="date"
-                      className="form-control form-control-lg"
+                      className={classNames("form-control form-control-lg",{
+                        "is-invalid":start===""&&pressedSubmit
+                      })}
                       name="start_date"
                       value={start}
                       onChange={(e)=>onChange(e,setStart)}
@@ -81,7 +101,9 @@ const AddProject=(props)=>{
                   <div className="form-group">
                     <input
                       type="date"
-                      className="form-control form-control-lg"
+                      className={classNames("form-control form-control-lg",{
+                        "is-invalid":end===""&&pressedSubmit
+                      })}                  
                       name="end_date"
                       value={end}
                       onChange={(e)=>onChange(e,setEnd)}
@@ -102,6 +124,12 @@ const AddProject=(props)=>{
     
 }
 
+const maptostate=state=>{
+  return{
+    error:state.reducer.error
+  }
+}
+
 const maptoprops=dispatch=>{
   return{
     createProject:(project,history)=>dispatch(createProject(project,history))
@@ -109,4 +137,4 @@ const maptoprops=dispatch=>{
 }
 
 
-export default connect(null,maptoprops)(withRouter(AddProject));
+export default withRouter(connect(maptostate,maptoprops)(AddProject));

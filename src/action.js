@@ -3,11 +3,11 @@ import axios from 'axios'
 export const createProject=(project,history)=>{
     return async dispatch=>{
         try{
-            await axios.post("http://localhost:8080/api/project",project)
-
+            const resp= await axios.post("http://localhost:8080/api/project",project)
+            const data=await resp.data
+            console.log(data)
         }catch(e){
-            console.log(e)
-            dispatch(gettingResponse(e.response.data))
+            dispatch(gettingResponse(e))
 
         }
     }

@@ -1,18 +1,18 @@
 import '../action'
-
 const initialreducer={
-    error:null
+    error:false
 }
 
 
 const reducer=(state=initialreducer,action)=>{
     if(action.type==="response"){
+        
         return{
             ...state,
-            error:action.error
+            error:action.err
         }
-    }
 
+    }
     return reducer
 }
 
