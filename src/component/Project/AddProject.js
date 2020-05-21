@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-
-
+import {connect} from 'react-redux'
+import {createProject} from '../../action'
+import {withRouter}from 'react-router-dom'
 
 const AddProject=(props)=>{
     const[projectName,setProjectName]=useState("");
@@ -25,6 +26,7 @@ const AddProject=(props)=>{
             end_date: end
         }
         console.log(obj)
+        props.createProject(obj,props.history)
     }
 
     return(
@@ -100,5 +102,11 @@ const AddProject=(props)=>{
     
 }
 
+const maptoprops=dispatch=>{
+  return{
+    createProject:(project,history)=>dispatch(createProject(project,history))
+  }
+}
 
-export default AddProject;
+
+export default connect(null,maptoprops)(withRouter(AddProject));
