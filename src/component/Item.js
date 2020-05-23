@@ -6,17 +6,16 @@ import { NavLink } from 'react-router-dom';
 const Item =(props)=>{
 
 
-
     return(
         <div className="container">
         <div className="card card-body bg-light mb-3">
           <div className="row">
             <div className="col-2">
-              <span className="mx-auto">REACT</span>
+              <span className="mx-auto">{props.name}</span>
             </div>
             <div className="col-lg-6 col-md-4 col-8">
-              <h3>Spring / React Project</h3>
-              <p>Project to create a Kanban Board with Spring Boot and React</p>
+              <h3>Project id:{props.id}</h3>
+              <p>{props.desc}</p>
             </div>
             <div className="col-md-4 d-none d-lg-block">
               <ul className="list-group">
@@ -30,11 +29,11 @@ const Item =(props)=>{
                     <i className="fa fa-edit pr-1"> Update Project Info</i>
                   </li>
                 </NavLink>
-                <NavLink to="">
+                {/* <NavLink to="#"> */}
                   <li className="list-group-item delete">
-                    <i className="fa fa-minus-circle pr-1"> Delete Project</i>
+                    <i onClick={()=>props.Deleting(props.id)} className="fa fa-minus-circle pr-1"> Delete Project</i>
                   </li>
-                </NavLink>
+                {/* </NavLink> */}
               </ul>
             </div>
           </div>
@@ -42,5 +41,6 @@ const Item =(props)=>{
       </div>
     )
 }
+
 
 export default Item;

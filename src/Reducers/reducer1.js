@@ -1,6 +1,7 @@
 import '../action'
 const initialreducer={
-    error:false
+    error:false,
+    projects:[]
 }
 
 
@@ -9,9 +10,15 @@ const reducer=(state=initialreducer,action)=>{
         
         return{
             ...state,
-            error:action.err
+            error:true
         }
 
+    }
+    if(action.type==='projects'){
+        return{
+            ...state,
+            projects:action.projects
+        }
     }
     return reducer
 }

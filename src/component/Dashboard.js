@@ -1,11 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Item from './Item'
 import Button from './Project/Button'
+import {connect} from 'react-redux'
+import {allProjectsRecieved} from './../action'
+import axios from 'axios'
 
 
 
 const Dashboard=(props)=>{
-    
+  const [projects,setprojects]=useState(null)
+  const [reload,setreload]=useState(true)
+
+  useEffect(()=>{
+    var gettingprojects=async()=>{
+      const resp = await axios.get('http://localhost:8080/api/project/all')
+      const data = await resp.data
+      await props.gettingProjects(data)
+      setprojects(data) 
+      setreload(false)
+      
+   }
+   
+   gettingprojects()
+
+  // eslint-disable-next-line 
+  },[reload])
+
+  var Deleting=async(id)=>{
+    const rep= await axios.delete(`http://localhost:8080/api/project/${id}`)
+    const data= await rep.data
+    console.log(data)
+    setreload(true)
+  }
+    let allproject=null
+    if(projects===null||projects.length===0){
+      allproject=null
+    }else{
+      allproject=projects.map(x=>(
+         <Item Deleting={Deleting} key={x.projectIdentifier} name={x.projectName} id={x.projectIdentifier} desc={x.description}/>
+      ))
+    }
     return(
         <div className="projects">
         <div className="container">
@@ -16,14 +50,32 @@ const Dashboard=(props)=>{
              <Button/>
               <br />
               <hr />
-              <Item/>
+              {allproject ? allproject:<p style={{fontSize:'50px',left:'400px',position:'absolute'}}>You have no projects</p>}
             </div>
           </div>
         </div>
       </div>
     );
+
+   
     
 }
 
 
-export default Dashboard;
+const maptostate=state=>{
+  return{
+    projects:state.reducer.projects,
+    
+  }
+}
+
+
+const maptoprops=dispatch=>{
+  return{
+    gettingProjects:(projects)=>dispatch(allProjectsRecieved(projects))
+  }
+}
+
+
+
+export default connect(maptostate,maptoprops) (Dashboard);

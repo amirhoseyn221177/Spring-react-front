@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import {connect} from 'react-redux'
 import {createProject} from '../../action'
 import {withRouter}from 'react-router-dom'
 import classNames from 'classnames'
+import Modal from '../../Modal/Modal'
 
 const AddProject=(props)=>{
     const[projectName,setProjectName]=useState("");
@@ -11,6 +12,7 @@ const AddProject=(props)=>{
     const [start,setStart]=useState("");
     const [end,setEnd]=useState("");
     const [pressedSubmit,setPressedSubmit]=useState(false)
+    const [closeModal,setCloseModal]=useState(false)
 
     var onChange=(e,settype)=>{
         let content=e.target.value
@@ -21,6 +23,7 @@ const AddProject=(props)=>{
     var onSubmit=(e)=>{
         e.preventDefault();
         setPressedSubmit(true)
+        setCloseModal(false)
         let obj={
             projectName: projectName,
             projectIdentifier: projectIdentifier,
@@ -37,11 +40,17 @@ const AddProject=(props)=>{
      
         console.log(obj)
         props.createProject(obj,props.history)
+        props.history.push('/dashboard')
+    }
+
+    var close=()=>{
+      setCloseModal(true)
     }
 
 
-
     return(
+      <Fragment>
+        {props.error&& closeModal===false ? <Modal close={close} show={props.error}>There is an error with your request, please try again</Modal>:null}
         <div>
         <div className="project">
           <div className="container">
@@ -120,6 +129,7 @@ const AddProject=(props)=>{
           </div>
         </div>
       </div>
+      </Fragment>
     );
     
 }
