@@ -1,9 +1,18 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-
+import {withRouter} from 'react-router-dom'
 
 
 const Item =(props)=>{
+
+  var goingToUpdate=async()=>{
+    props.history.push({
+      pathname:`/project/${props.id}`,
+      state:props.id
+    })
+
+  }
+
 
 
     return(
@@ -24,11 +33,9 @@ const Item =(props)=>{
                     <i className="fa fa-flag-checkered pr-1"> Project Board </i>
                   </li>
                 </NavLink>
-                <NavLink to="#">
                   <li className="list-group-item update">
-                    <i className="fa fa-edit pr-1"> Update Project Info</i>
+                    <i onClick={goingToUpdate} className="fa fa-edit pr-1"> Update Project Info</i>
                   </li>
-                </NavLink>
                 {/* <NavLink to="#"> */}
                   <li className="list-group-item delete">
                     <i onClick={()=>props.Deleting(props.id)} className="fa fa-minus-circle pr-1"> Delete Project</i>
@@ -43,4 +50,4 @@ const Item =(props)=>{
 }
 
 
-export default Item;
+export default withRouter(Item);

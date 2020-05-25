@@ -40,7 +40,10 @@ const AddProject=(props)=>{
      
         console.log(obj)
         props.createProject(obj,props.history)
-        props.history.push('/dashboard')
+        if(!props.error){
+          props.history.push('/dashboard')
+
+        }
     }
 
     var close=()=>{

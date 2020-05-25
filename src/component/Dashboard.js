@@ -13,7 +13,7 @@ const Dashboard=(props)=>{
 
   useEffect(()=>{
     var gettingprojects=async()=>{
-      const resp = await axios.get('http://localhost:8080/api/project/all')
+      const resp = await axios.get('/api/project/all')
       const data = await resp.data
       await props.gettingProjects(data)
       setprojects(data) 
@@ -27,7 +27,7 @@ const Dashboard=(props)=>{
   },[reload])
 
   var Deleting=async(id)=>{
-    const rep= await axios.delete(`http://localhost:8080/api/project/${id}`)
+    const rep= await axios.delete(`/api/project/${id}`)
     const data= await rep.data
     console.log(data)
     setreload(true)
