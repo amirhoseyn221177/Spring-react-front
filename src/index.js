@@ -7,10 +7,12 @@ import { createStore, compose, applyMiddleware, combineReducers } from "redux"
 import {Provider} from 'react-redux'
 import thunk  from 'redux-thunk'
 import reducer from './Reducers/reducer1'
+import backlog from './Reducers/backlogReducer'
 
 
 const rootreducer=combineReducers({
-  reducer:reducer
+  reducer:reducer,
+  backlog:backlog
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

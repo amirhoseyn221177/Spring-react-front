@@ -39,3 +39,45 @@ export const allProjectsRecieved=(projects)=>{
         projects:projects
     }
 }
+
+export const errorProjectTask=()=>{
+    return{
+        type:'error'
+    }
+}
+
+
+export const addingProjectTask=(task,backlog_id)=>{
+    return async dispatch=>{
+        try{
+            console.log(task)
+            const resp= await axios.post(`/api/backlog/${backlog_id}`,task)
+            const data = await resp.data
+            console.log(data)
+        }catch(e){
+            console.log(e)
+            dispatch(errorProjectTask())
+        }
+    }
+ 
+}
+
+export const taskToReducer=(tasks)=>{
+    return{
+        type:'tasks',
+        tasks:tasks
+    }
+}
+
+export const gettingTasks=(id)=>{
+    return async dispatch=>{
+        try{
+            const resp = await axios.get(`/api/backlog/${id}`)
+            const data = await resp.data
+            dispatch(taskToReducer(data))
+        }catch(e){
+            console.log(e)
+            dispatch(errorProjectTask())
+        }
+    }
+}

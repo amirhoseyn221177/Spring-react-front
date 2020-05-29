@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import {withRouter} from 'react-router-dom'
+import {withRouter, NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import axios from "axios";
 import classes from 'classnames'
@@ -42,7 +42,7 @@ const UpdateProject=(props)=>{
     settype(content)
     
   }
-
+ 
 
   var updatingProject=async()=>{
     setpressed(true)
@@ -67,6 +67,9 @@ const UpdateProject=(props)=>{
     <div className="container">
       <div className="row">
         <div className="col-md-8 m-auto">
+        <NavLink  to='/dashboard' className="btn btn-light">
+                Back to Project Board
+            </NavLink>
           <h5 className="display-4 text-center">Update Project form</h5>
           <hr />
           <form>
@@ -121,7 +124,6 @@ const UpdateProject=(props)=>{
                 disabled
               />
             </div>
-
             <input
               type="button"
               className="btn btn-primary btn-block mt-4"
