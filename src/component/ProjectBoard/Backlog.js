@@ -28,7 +28,11 @@ let run= useRef(1)
         }
 // eslint-disable-next-line 
     },[run.current])
-    
+
+    let sortedtodo=todoTasks.sort((a,b)=>(a.priority>b.priority)?1:-1)
+    let sortedinprog=inProgress.sort((a,b)=>(a.priority>b.priority)?1:-1)
+    let sorteddone=done.sort((a,b)=>(a.priority>b.priority)?1:-1)
+
    
     return(
         <div className="container">
@@ -40,8 +44,8 @@ let run= useRef(1)
               </div>
             </div>
             {
-                todoTasks.map(t=>(
-                    <ProjectTask projectSequence={t.projectSequence}
+                sortedtodo.map(t=>(
+                    <ProjectTask key={t.projectSequence} projectSequence={t.projectSequence}
                     priorityString={t.priority} summary={t.summary} 
                     acceptanceCriteria={t.acceptanceCriteria}/>
                 ))
@@ -54,8 +58,8 @@ let run= useRef(1)
               </div>
             </div>
             {
-                inProgress.map(t=>(
-                    <ProjectTask projectSequence={t.projectSequence}
+                sortedinprog.map(t=>(
+                    <ProjectTask key={t.projectSequence} projectSequence={t.projectSequence}
                     priorityString={t.priority} summary={t.summary} 
                     acceptanceCriteria={t.acceptanceCriteria}/>
                 ))
@@ -68,8 +72,8 @@ let run= useRef(1)
               </div>
             </div>
             {
-                done.map(t=>(
-                    <ProjectTask projectSequence={t.projectSequence}
+                sorteddone.map(t=>(
+                    <ProjectTask key={t.projectSequence} projectSequence={t.projectSequence}
                     priorityString={t.priority} summary={t.summary} 
                     acceptanceCriteria={t.acceptanceCriteria}/>
                 ))
