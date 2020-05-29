@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink , withRouter } from 'react-router-dom'
 
 
 
@@ -28,7 +28,7 @@ const ProjectTask=(props)=>{
           <p className="card-text text-truncate ">
             {props.acceptanceCriteria}
           </p>
-          <NavLink to="" className="btn btn-primary">
+          <NavLink to={`/updateprojecttask/${props.match.params.id}/${props.projectSequence}`} className="btn btn-primary">
             View / Update
           </NavLink>
 
@@ -39,4 +39,4 @@ const ProjectTask=(props)=>{
     
 }
 
-export default ProjectTask
+export default withRouter(ProjectTask);
