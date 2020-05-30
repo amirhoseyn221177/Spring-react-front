@@ -1,9 +1,24 @@
-import React from 'react'
+import React  from 'react'
 import { NavLink , withRouter } from 'react-router-dom'
-
+import Axios from 'axios'
+import {connect} from 'react-redux'
+import { gettingTasks } from '../../../action'
 
 
 const ProjectTask=(props)=>{
+
+  var deletingTask=async()=>{
+    try{
+      const resp= await Axios.delete(`/api/backlog/${props.match.params.id}/${props.projectSequence}`)
+      const data = await resp.data
+      window.location.reload(false)
+      console.log(data)
+    }catch(e){
+      console.log(e)
+      window.alert('there is was a problem with your request please try again')
+    }
+  
+  }
 
   let prioclass;
   let priostring;
@@ -32,11 +47,17 @@ const ProjectTask=(props)=>{
             View / Update
           </NavLink>
 
-          <button className="btn btn-danger ml-4">Delete</button>
+          <button onClick={deletingTask} className="btn btn-danger ml-4">Delete</button>
         </div>
       </div>
     )
     
 }
+const maptoprops=dispatch=>{
+  return{
+    requestingTasks:(id)=>dispatch(gettingTasks(id))
+  }
+}
 
-export default withRouter(ProjectTask);
+
+export default connect(null,maptoprops) (withRouter(ProjectTask));

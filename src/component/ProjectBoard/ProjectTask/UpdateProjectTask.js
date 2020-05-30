@@ -1,10 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import {withRouter, NavLink} from 'react-router-dom'
 import Axios from 'axios'
+import classes from 'classnames'
 
 const UpdateTask=(props)=>{
     const [task,settask]=useState(null)
     const [error,setError]=useState(false)
+    const [pressed,setPressed]=useState(false)
     useEffect(()=>{
         var getTask=async()=>{
             try{
@@ -14,6 +16,9 @@ const UpdateTask=(props)=>{
             }catch(e){
                 console.log(e)
                 setError(true)
+                setTimeout(() => {
+                  props.history.push(`/projectboard/${props.match.params.id}`)
+                }, 3000);
             }
            
         }
@@ -36,6 +41,12 @@ const UpdateTask=(props)=>{
 
 
     var sendingtoBackEnd=async()=>{
+        setPressed(true)
+        for(let val of Object.values(task)){
+            if(val===""|| val===0){
+              return;
+            }
+          }
         try{
             const resp = await Axios.patch(`/api/backlog/${props.match.params.id}/${props.match.params.id2}`,task)
             const data = await resp.data
@@ -51,7 +62,7 @@ const UpdateTask=(props)=>{
         }
     }
     let content;
-    if(error){
+    if(error || task===null){
         content=<div className="alert alert-danger text-center" role="alert" >We can't find any project Task with this id {props.match.params.id2}</div>
     }else{
         content=(
@@ -68,8 +79,8 @@ const UpdateTask=(props)=>{
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg"
-                    name="summary"
+                    className={classes("form-control form-control-lg",{"is-invalid":task.summary===""&&pressed})}  
+                     name="summary"
                     placeholder="Project Task summary"
                     defaultValue={task ? task.summary:null}
                     onChange={(e)=>onchange(e,'summary')}
@@ -77,7 +88,7 @@ const UpdateTask=(props)=>{
                 </div>
                 <div className="form-group">
                   <textarea
-                    className="form-control form-control-lg"
+                    className={classes("form-control form-control-lg",{"is-invalid":task.acceptanceCriteria===""&&pressed})} 
                     placeholder="Acceptance Criteria"
                     name="acceptanceCriteria"
                     defaultValue={task ? task.acceptanceCriteria:null}
@@ -88,7 +99,7 @@ const UpdateTask=(props)=>{
                 <div className="form-group">
                   <input
                     type="date"
-                    className="form-control form-control-lg"
+                    className={classes("form-control form-control-lg",{"is-invalid":task.dueDate===""&&pressed})} 
                     name="dueDate"
                     defaultValue={task? task.dueDate:null}
                     onChange={(e)=>onchange(e,'dueDate')}
@@ -98,7 +109,7 @@ const UpdateTask=(props)=>{
                 <div className="form-group">
                    your last choice is: {task ? task.priority:null}
                   <select
-                    className="form-control form-control-lg"
+                    className={classes("form-control form-control-lg",{"is-invalid":task.priority===0&&pressed})} 
                     name="priority"
                     onChange={(e)=>onchange(e,'priority')}
 
@@ -113,7 +124,7 @@ const UpdateTask=(props)=>{
                 <div className="form-group" >
                     your last choice is: {task ? task.status:null}
                   <select
-                    className="form-control form-control-lg"
+                    className={classes("form-control form-control-lg",{"is-invalid":task.status===""&&pressed})} 
                     name="status"
                     onChange={(e)=>onchange(e,'status')}
 

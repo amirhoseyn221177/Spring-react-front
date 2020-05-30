@@ -17,6 +17,7 @@ let run= useRef(1)
             run.current--
             return
         }
+        console.log(props.tasks)
         for(let task of props.tasks){
             if(task.status==="TO_DO"){
                 setToDoTasks(todoTasks=>[...todoTasks,task])
@@ -28,6 +29,8 @@ let run= useRef(1)
         }
 // eslint-disable-next-line 
     },[run.current])
+
+    
 
     let sortedtodo=todoTasks.sort((a,b)=>(a.priority>b.priority)?1:-1)
     let sortedinprog=inProgress.sort((a,b)=>(a.priority>b.priority)?1:-1)
@@ -88,7 +91,7 @@ let run= useRef(1)
 
 const maptostate=state=>{
     return{
-        tasks:state.backlog.projectTasks
+        tasks:state.backlog.projectTasks,
     }
 }
 

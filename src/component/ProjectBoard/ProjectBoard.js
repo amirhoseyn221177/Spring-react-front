@@ -8,15 +8,17 @@ import {gettingTasks} from '../../action'
 const ProjectBoard=(props)=>{
     const [id]=useState(props.match.params.id)
     
+    
 
-    useEffect(()=>{
-         props.requestingTasks(id)
-
+  useEffect(()=>{
+    props.requestingTasks(id)
+    console.log(props.projectTasks)
   // eslint-disable-next-line  
     },[])
 
 
     let content;
+
     if(props.error){
     content=<div className="alert alert-danger text-center" role="alert" >We can't find any project with this id {props.match.params.id}</div>
       setTimeout(() => {
@@ -43,7 +45,7 @@ const ProjectBoard=(props)=>{
 }
 const maptostate=state=>{
   return{
-    error:state.backlog.error
+    error:state.backlog.error,
   }
 
 }
