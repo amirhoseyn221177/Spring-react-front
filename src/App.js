@@ -1,30 +1,24 @@
 import React from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import Header from "./component/layout/header"
-import Dashboard from './component/Dashboard'
-import AddProject from './component/Project/AddProject'
-import Update from './component/Project/UpdateProject'
 import {BrowserRouter, Switch, Route }  from 'react-router-dom'
-import ProjectBoard from './component/ProjectBoard/ProjectBoard'
-import addProjectTask from './component/ProjectBoard/ProjectTask/addProjectTask';
-import UpdateProjectTask from './component/ProjectBoard/ProjectTask/UpdateProjectTask';
+import Landing from './component/layout/Landing';
+import Register from './component/layout/UserManagment/Register';
+import Login from './component/layout/UserManagment/Login';
+import All from './AllExceptMain'
 
 
-function App() {
-
+function App(props) {
   return (
     <BrowserRouter>
+    <Switch>
+      <Route exact path='/' component={Landing}/>
+      <Route exact path='/register' component={Register}/>
+      <Route exact path='/login' component={Login}/>
+    </Switch>
+
     <div className="App">
-      <Header />
-      <Switch>
-        <Route exact path='/dashboard' component={Dashboard}/>
-        <Route exact path="/addproject" component={AddProject}/>
-        <Route exact path="/project/:id" component={Update}/>
-        <Route exact path='/projectboard/:id' component={ProjectBoard}/>
-        <Route exact path='/addprojecttask/:id' component={addProjectTask}/>
-        <Route exact path='/updateprojecttask/:id/:id2' component={UpdateProjectTask}/>
-      </Switch>
+      <All/>
     </div>
   </BrowserRouter>
 

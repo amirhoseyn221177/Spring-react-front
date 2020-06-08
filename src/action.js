@@ -7,6 +7,7 @@ export const createProject=(project,history)=>{
             const data=await resp.data
             console.log(data)
         }catch(e){
+            console.log(e.response.data)
             dispatch(gettingResponse())
 
         }
@@ -55,7 +56,7 @@ export const addingProjectTask=(task,backlog_id)=>{
             const data = await resp.data
             console.log(data)
         }catch(e){
-            console.log(e)
+            console.log(e.response.data)
             dispatch(errorProjectTask())
         }
     }
@@ -76,9 +77,50 @@ export const gettingTasks=(id)=>{
             const data = await resp.data
             dispatch(taskToReducer(data))
         }catch(e){
-            console.log(e)
-            dispatch(errorProjectTask())
+            console.log(e.response.data)
+            //dispatch(errorProjectTask())
         }
     }
 }
 
+export const authneticate=(obj)=>{
+    return async dispatch=>{
+        try{
+            const resp= await axios.post('/api/users/register',obj)
+            const data= await resp.data
+            console.log(data)
+            dispatch(sendTokenToReducer(data))
+            dispatch(errorToToken(false))
+        }catch(e){
+            console.log(e.response.data)
+            dispatch(errorToToken(e.response.data))
+        }
+    }
+}
+
+export const sendTokenToReducer=(token)=>{
+    return{
+        type:'tokenRecieved',
+        token:token
+    }
+}
+
+export const errorToToken=(resp)=>{
+    return {
+        type:'errorForAuth',
+        resp:resp
+    }
+}
+
+export const Loging=(obj)=>{
+    return async dispatch=>{
+        try{
+            const resp = await axios.post('api/users/login',obj)
+            const data = await resp.data
+            console.log(data)
+        }catch(e){
+            console.log(e.response.data)
+        }
+
+    }
+}

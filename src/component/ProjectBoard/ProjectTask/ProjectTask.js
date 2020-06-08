@@ -15,7 +15,7 @@ const ProjectTask=(props)=>{
       console.log(data)
     }catch(e){
       console.log(e)
-      window.alert('there is was a problem with your request please try again')
+      window.alert('there was a problem with your request please try again')
     }
   
   }

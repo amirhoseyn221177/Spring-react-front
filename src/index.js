@@ -8,11 +8,13 @@ import {Provider} from 'react-redux'
 import thunk  from 'redux-thunk'
 import reducer from './Reducers/reducer1'
 import backlog from './Reducers/backlogReducer'
+import Auth from './Reducers/Authorization'
 
 
 const rootreducer=combineReducers({
   reducer:reducer,
-  backlog:backlog
+  backlog:backlog,
+  auth:Auth
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
