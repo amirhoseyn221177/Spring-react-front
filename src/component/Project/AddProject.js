@@ -38,7 +38,6 @@ const AddProject=(props)=>{
           }
         }
      
-        console.log(obj)
         props.createProject(obj,props.history)
         if(!props.error){
           props.history.push('/dashboard')

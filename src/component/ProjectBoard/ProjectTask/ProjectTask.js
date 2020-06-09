@@ -12,7 +12,6 @@ const ProjectTask=(props)=>{
       const resp= await Axios.delete(`/api/backlog/${props.match.params.id}/${props.projectSequence}`)
       const data = await resp.data
       window.location.reload(false)
-      console.log(data)
     }catch(e){
       console.log(e)
       window.alert('there was a problem with your request please try again')

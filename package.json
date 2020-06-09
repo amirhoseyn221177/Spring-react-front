@@ -10,6 +10,7 @@
     "boostrap": "^2.0.0",
     "bootstrap": "^4.5.0",
     "classnames": "^2.2.6",
+    "cors": "^2.8.5",
     "jwt-decode": "^2.2.0",
     "moment": "^2.26.0",
     "react": "^16.13.1",
@@ -42,5 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "https://amirnotebook.herokuapp.com/"
 }

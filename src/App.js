@@ -16,7 +16,6 @@ import Header from "./component/layout/header"
 let token=localStorage.getItem('jwt')
 if(token){
   let decoded=jwt_decode(token)
-  console.log(decoded)
   let current= Date.now()/1000
   if(decoded.exp<current){
     logOut()

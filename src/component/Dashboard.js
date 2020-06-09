@@ -34,7 +34,6 @@ const Dashboard=(props)=>{
   var Deleting=async(id)=>{
     const rep= await axios.delete(`/api/project/${id}`)
     const data= await rep.data
-    console.log(data)
     setreload(true)
   }
     let allproject=null

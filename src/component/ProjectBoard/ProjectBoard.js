@@ -12,7 +12,6 @@ const ProjectBoard=(props)=>{
 
   useEffect(()=>{
     props.requestingTasks(id)
-    console.log(props.projectTasks)
   // eslint-disable-next-line  
     },[])
 

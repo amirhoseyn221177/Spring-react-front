@@ -64,7 +64,6 @@ const Header=(props)=>{
     </ul>
     )
    }
-   console.log(name)
     return(
 
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">

@@ -7,7 +7,6 @@ export const createProject=(project,history)=>{
         try{
             const resp= await axios.post("/api/project",project)
             const data=await resp.data
-            console.log(data)
         }catch(e){
             console.log(e.response.data)
             dispatch(gettingResponse())
@@ -23,18 +22,6 @@ export const gettingResponse=()=>{
     }
 }
 
-// export const gettingAllProjects=()=>{
-//     return async dispatch=>{
-//         try {
-//             const resp = await axios.get('http://localhost:8080/api/project/all')
-//             const data = await resp.data
-//             console.log(data)
-//             dispatch(allProjectsRecieved(data))
-//         } catch (e) {
-            
-//         }
-//     }
-// }
 
 export const allProjectsRecieved=(projects)=>{
     return{
@@ -53,10 +40,8 @@ export const errorProjectTask=()=>{
 export const addingProjectTask=(task,backlog_id)=>{
     return async dispatch=>{
         try{
-            console.log(task)
             const resp= await axios.post(`/api/backlog/${backlog_id}`,task)
             const data = await resp.data
-            console.log(data)
         }catch(e){
             console.log(e.response.data)
             dispatch(errorProjectTask())
@@ -90,7 +75,6 @@ export const authneticate=(obj)=>{
         try{
             const resp= await axios.post('/api/users/register',obj)
             const data= await resp.data
-            console.log(data)
             dispatch(errorToToken(false))
         }catch(e){
             console.log(e.response.data)
@@ -118,7 +102,6 @@ export const Loging=(obj)=>{
         try{
             const resp = await axios.post('/api/users/login',obj)
             const data = await resp.data
-            console.log(data)
             let token=data.token
             localStorage.setItem("jwt",token)
             setJwtToken(token)
