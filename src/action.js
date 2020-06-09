@@ -1,4 +1,6 @@
 import axios from 'axios'
+import setJwtToken from './SetJwtToken'
+import jwt_decode from 'jwt-decode'
 
 export const createProject=(project,history)=>{
     return async dispatch=>{
@@ -78,7 +80,7 @@ export const gettingTasks=(id)=>{
             dispatch(taskToReducer(data))
         }catch(e){
             console.log(e.response.data)
-            //dispatch(errorProjectTask())
+            dispatch(errorProjectTask())
         }
     }
 }
@@ -89,7 +91,6 @@ export const authneticate=(obj)=>{
             const resp= await axios.post('/api/users/register',obj)
             const data= await resp.data
             console.log(data)
-            dispatch(sendTokenToReducer(data))
             dispatch(errorToToken(false))
         }catch(e){
             console.log(e.response.data)
@@ -115,12 +116,26 @@ export const errorToToken=(resp)=>{
 export const Loging=(obj)=>{
     return async dispatch=>{
         try{
-            const resp = await axios.post('api/users/login',obj)
+            const resp = await axios.post('/api/users/login',obj)
             const data = await resp.data
             console.log(data)
+            let token=data.token
+            localStorage.setItem("jwt",token)
+            setJwtToken(token)
+            let decoded=jwt_decode(token)
+            dispatch(sendTokenToReducer(decoded))
         }catch(e){
             console.log(e.response.data)
+            dispatch(errorToToken(e.response.data))
         }
+    }
+}
 
+export const logOut=()=>{
+    console.log(135)
+    localStorage.removeItem('jwt')
+    setJwtToken(false)
+    return{
+        type:'logout'
     }
 }

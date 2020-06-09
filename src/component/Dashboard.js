@@ -10,19 +10,20 @@ import axios from 'axios'
 const Dashboard=(props)=>{
   const [projects,setprojects]=useState(null)
   const [reload,setreload]=useState(true)
-
   useEffect(()=>{
     var gettingprojects=async()=>{
-      const resp = await axios.get('/api/project/all')
-      const data = await resp.data
-      await props.gettingProjects(data)
-      setprojects(data) 
-      setreload(false)
-      
-   }
-   
-   gettingprojects()
+      try{
 
+        const resp = await axios.get('/api/project/all')
+        const data = await resp.data
+        await props.getProjects(data)
+        setprojects(data) 
+        setreload(false)
+      }catch(e){
+        console.log(e.response.data)
+      }   
+   }
+   gettingprojects()
   // eslint-disable-next-line 
   },[reload])
 
@@ -72,7 +73,7 @@ const maptostate=state=>{
 
 const maptoprops=dispatch=>{
   return{
-    gettingProjects:(projects)=>dispatch(allProjectsRecieved(projects))
+    getProjects:(projects)=>dispatch(allProjectsRecieved(projects))
   }
 }
 

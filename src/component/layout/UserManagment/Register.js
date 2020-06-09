@@ -18,9 +18,10 @@ const Register=(props)=>{
             run.current=false
             return
         }
-    if(props.error===false){
-        props.history.push('/login')
-    }
+    // if(props.error===false){
+    //     props.history.push('/login')
+    // }
+
     // eslint-disable-next-line
     },[props.error])
 

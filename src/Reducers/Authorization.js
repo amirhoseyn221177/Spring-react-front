@@ -17,6 +17,23 @@ const reducer=(state=initialstate,action)=>{
             error:action.resp
         }
     }
+
+    if(action.type==="tokenRecieved"){
+        return{
+            ...state,
+            token:action.token,
+            error:false
+        }
+    }
+
+    if(action.type==="logout"){
+        return{
+            ...state,
+            token:null,
+            error:null
+        }
+    }
+
     return state
 
 }

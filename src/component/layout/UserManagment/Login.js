@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import classes from 'classnames'
 import {withRouter} from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -10,7 +10,18 @@ const Login=(props)=>{
   const [password,setPassword]=useState("")
   const [pressed,setPressed]=useState(false)
 
+    let run=useRef(true)
+    useEffect(()=>{
+      if(run.current){
+        run.current=false
+        return
+      }
+      if(props.token){
+        props.history.push('/dashboard')
+      }
 
+      // eslint-disable-next-line
+    },[props.token])
 
   var changingState=(e,settype)=>{
     let content=e.target.value
@@ -20,7 +31,8 @@ const Login=(props)=>{
   var submiting=()=>{
     setPressed(true)
     if(username===""||password==="") return;
-
+    let obj={username,password}
+    props.logingIn(obj)
   }
   return(
         <div style={{position:'relative', top:'200px'}} className="login">
@@ -37,7 +49,8 @@ const Login=(props)=>{
                     })}
                     placeholder="Email Address"
                     name="email"
-                    onClick={(e)=>changingState(e,setUsername)}
+                    onChange={(e)=>changingState(e,setUsername)}
+
 
                   />
                 </div>
@@ -49,10 +62,10 @@ const Login=(props)=>{
                       })}              
                     placeholder="Password"
                     name="password"
-                    onClick={(e)=>changingState(e,setPassword)}
+                    onChange={(e)=>changingState(e,setPassword)}
                   />
                 </div>
-                <input type="button" className="btn btn-info btn-block mt-4" defaultValue="Submit"/>
+                <input type="button" onClick={submiting} className="btn btn-info btn-block mt-4" defaultValue="Submit"/>
               </form>
             </div>
           </div>
@@ -61,10 +74,17 @@ const Login=(props)=>{
     )
 }
 
+
+const maptostate=state=>{
+  return{
+    token:state.auth.token
+  }
+}
+
 const maptoprops=dispatch=>{
   return{
     logingIn:(obj)=>dispatch(Loging(obj))
   }
 }
 
-export default connect() (withRouter(Login));
+export default connect(maptostate,maptoprops)(withRouter(Login));
