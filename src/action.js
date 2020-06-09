@@ -132,7 +132,6 @@ export const Loging=(obj)=>{
 }
 
 export const logOut=()=>{
-    console.log(135)
     localStorage.removeItem('jwt')
     setJwtToken(false)
     return{

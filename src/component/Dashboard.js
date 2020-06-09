@@ -11,6 +11,10 @@ const Dashboard=(props)=>{
   const [projects,setprojects]=useState(null)
   const [reload,setreload]=useState(true)
   useEffect(()=>{
+    let token=localStorage.getItem('jwt')
+    if(!token){
+      props.history.push('/')
+    }
     var gettingprojects=async()=>{
       try{
 

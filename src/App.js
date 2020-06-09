@@ -10,6 +10,7 @@ import jwt_decode from 'jwt-decode'
 import { connect } from 'react-redux';
 import { sendTokenToReducer, logOut } from './action';
 import setJwtToken from './SetJwtToken';
+import Header from "./component/layout/header"
 
 
 let token=localStorage.getItem('jwt')
@@ -29,13 +30,13 @@ if(token){
 function App(props) {
   return (
     <BrowserRouter>
+    <div className="App">
+    <Header />
     <Switch>
       <Route exact path='/' component={Landing}/>
       <Route exact path='/register' component={Register}/>
       <Route exact path='/login' component={Login}/>
     </Switch>
-
-    <div className="App">
       <All/>
     </div>
   </BrowserRouter>

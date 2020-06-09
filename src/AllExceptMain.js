@@ -1,6 +1,5 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
-import Header from "./component/layout/header"
 import Dashboard from './component/Dashboard'
 import AddProject from './component/Project/AddProject'
 import Update from './component/Project/UpdateProject'
@@ -13,9 +12,11 @@ import UpdateProjectTask from './component/ProjectBoard/ProjectTask/UpdateProjec
 
 
 const All=(props)=>{
+
+  // 
     return(
         <div>
-       {props.location.pathname==="/"||props.location.pathname==='/register'||props.location.pathname==='/login' ? null : <Header />} 
+       {/* {props.location.pathname==="/"||props.location.pathname==='/register'||props.location.pathname==='/login' ? null : }  */}
         <Switch>
           <Route exact path='/dashboard' component={Dashboard}/>
           <Route exact path="/addproject" component={AddProject}/>

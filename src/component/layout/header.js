@@ -1,11 +1,70 @@
-import React from "react"
-import { NavLink } from "react-router-dom";
-
+import React, { useState, useEffect } from "react"
+import { NavLink, withRouter } from "react-router-dom";
+import jwt_decode from 'jwt-decode'
+import { logOut } from "../../action";
+import {connect} from 'react-redux'
 
 
 
 const Header=(props)=>{
+  const [name,setName]=useState("")
 
+ 
+  useEffect(()=>{
+   
+          let token =localStorage.getItem('jwt')
+          if(token){
+            let decode=jwt_decode(token)
+            setName(decode.fullname)
+          }
+  
+  },[props.decodedToken])
+    
+ 
+   var pressedForLogOut=()=>{
+     try{
+      props.logout()
+      setName("")
+      props.history.push('/')
+     }catch(e){
+       console.log(e)
+     }
+
+   }
+   let singButtons;
+   if(name===""){
+     singButtons=(
+      <ul className="navbar-nav ml-auto">
+      <li className="nav-item">
+        <NavLink className="nav-link " to="/register">
+          Sign Up
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/login">
+          Login
+        </NavLink>
+      </li>
+    </ul>
+     )
+   }else{
+    singButtons=(
+      <ul className="navbar-nav ml-auto">
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/dashboard">
+          <i  className="fas fa-user-circle mr-1" />
+          {name}
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/" onClick={pressedForLogOut}>
+          Logout
+        </NavLink>
+      </li>
+    </ul>
+    )
+   }
+   console.log(name)
     return(
 
         <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
@@ -30,23 +89,24 @@ const Header=(props)=>{
                 </a>
               </li>
             </ul>
-
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <NavLink className="nav-link " to="/register">
-                  Sign Up
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
-                  Login
-                </NavLink>
-              </li>
-            </ul>
+            {singButtons}
           </div>
         </div>
       </nav>
     );
 }
 
-export default Header;
+
+const maptostate=state=>{
+  return{
+    decodedToken:state.auth.token
+  }
+}
+
+const maptoprops=dispatch=>{
+  return{
+    logout:()=>dispatch(logOut())
+  }
+}
+
+export default withRouter(connect(maptostate,maptoprops)(Header));
